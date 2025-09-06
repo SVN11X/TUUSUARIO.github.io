@@ -1,13 +1,272 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <meta charset="utf-8">
-    <title>Mi sitio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:2rem;max-width:60ch}</style>
+    <meta charset="utf-8" />
+    <title>Portafolio de Tu Nombre</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- SEO básico -->
+    <meta name="description" content="Portafolio personal: proyectos, experiencia y contacto." />
+    <meta name="author" content="Tu Nombre" />
+    <link rel="canonical" href="https://TUUSUARIO.github.io/" />
+    <meta name="robots" content="index,follow" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="Portafolio de Tu Nombre" />
+    <meta property="og:description" content="Proyectos, experiencia y contacto." />
+    <meta property="og:url" content="https://TUUSUARIO.github.io/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://TUUSUARIO.github.io/og-image.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Favicon (opcional: añade tus propios iconos) -->
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Estilos: sistema de diseño simple con variables y dark-mode -->
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #0f172a;   /* slate-900 */
+        --muted: #475569;  /* slate-600 */
+        --card: #f8fafc;   /* slate-50 */
+        --accent: #2563eb; /* blue-600 */
+        --border: #e2e8f0; /* slate-200 */
+        --radius: 16px;
+        --shadow: 0 10px 25px rgba(2, 6, 23, 0.08);
+        --maxw: 1100px;
+      }
+      /* Modo oscuro por preferencia del usuario */
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b1220;
+          --text: #e5e7eb;
+          --muted: #94a3b8;
+          --card: #0f172a;
+          --accent: #60a5fa;
+          --border: #1f2937;
+          --shadow: 0 10px 25px rgba(255, 255, 255, 0.05);
+        }
+      }
+      /* Forzar tema con data-theme="light|dark" (toggle JS) */
+      [data-theme="light"] {
+        --bg: #ffffff;
+        --text: #0f172a;
+        --muted: #475569;
+        --card: #f8fafc;
+        --accent: #2563eb;
+        --border: #e2e8f0;
+        --shadow: 0 10px 25px rgba(2, 6, 23, 0.08);
+      }
+      [data-theme="dark"] {
+        --bg: #0b1220;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --card: #0f172a;
+        --accent: #60a5fa;
+        --border: #1f2937;
+        --shadow: 0 10px 25px rgba(255, 255, 255, 0.05);
+      }
+
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, "Apple Color Emoji", "Segoe UI Emoji";
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      .container { max-width: var(--maxw); margin: 0 auto; padding: 1.25rem; }
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      /* Accesibilidad: link para saltar al contenido */
+      .skip-link {
+        position: absolute; left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+      }
+      .skip-link:focus { position: static; width: auto; height: auto; padding: .5rem 1rem; background: var(--card); border-radius: 8px; }
+
+      header {
+        position: sticky; top: 0; backdrop-filter: blur(8px);
+        background: color-mix(in srgb, var(--bg) 80%, transparent);
+        border-bottom: 1px solid var(--border);
+        z-index: 10;
+      }
+      .nav {
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      }
+      .brand { font-weight: 700; letter-spacing: .2px; }
+      .menu { display: flex; gap: 1rem; }
+      .menu a { padding: .5rem .75rem; border-radius: 10px; }
+      .menu a[aria-current="page"] { background: var(--card); }
+
+      .hero {
+        padding: 3rem 0 2rem;
+        display: grid; gap: 1.25rem;
+      }
+      .hero h1 { font-size: clamp(1.8rem, 3vw + 1rem, 3rem); margin: 0; line-height: 1.2; }
+      .hero p { color: var(--muted); margin: 0; }
+      .cta { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: .75rem; }
+      .btn {
+        display: inline-block; padding: .7rem 1rem; border-radius: 999px;
+        border: 1px solid var(--border); background: var(--card); box-shadow: var(--shadow);
+      }
+      .btn.primary { background: var(--accent); color: white; border-color: transparent; }
+      .grid {
+        display: grid; gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+      .card {
+        background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; box-shadow: var(--shadow);
+      }
+      h2 { margin-top: 2rem; margin-bottom: .5rem; }
+      ul { padding-left: 1.25rem; }
+
+      footer {
+        margin-top: 2rem; padding: 2rem 0; border-top: 1px solid var(--border);
+        color: var(--muted); font-size: .95rem;
+      }
+
+      /* Imagenes responsivas */
+      img { max-width: 100%; height: auto; border-radius: 12px; }
+      /* Código */
+      pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+      pre {
+        background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; overflow: auto;
+      }
+    </style>
+
+    <!-- Datos estructurados (schema.org) opcional -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Tu Nombre",
+      "url": "https://TUUSUARIO.github.io/",
+      "sameAs": ["https://github.com/TUUSUARIO","https://www.linkedin.com/in/TULINKEDIN/"]
+    }
+    </script>
   </head>
   <body>
-    <h1>Hola 👋</h1>
-    <p>Publicado con GitHub Pages.</p>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header>
+      <div class="container nav" role="navigation" aria-label="Principal">
+        <div class="brand">Tu Nombre</div>
+        <nav class="menu">
+          <a href="#sobre-mi">Sobre mí</a>
+          <a href="#proyectos">Proyectos</a>
+          <a href="#contacto">Contacto</a>
+          <button id="themeToggle" class="btn" type="button" aria-label="Cambiar tema">🌓</button>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido" class="container">
+      <!-- Hero / presentación -->
+      <section class="hero" aria-labelledby="titulo-hero">
+        <h1 id="titulo-hero">Construyo cosas para la web</h1>
+        <p>Desarrollo sitios y apps simples, accesibles y rápidos. Aquí encontrarás proyectos, stack y formas de contacto.</p>
+        <div class="cta">
+          <a class="btn primary" href="#proyectos">Ver proyectos</a>
+          <a class="btn" href="https://github.com/TUUSUARIO" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </section>
+
+      <!-- Sobre mí -->
+      <section id="sobre-mi" aria-labelledby="h-sobre">
+        <h2 id="h-sobre">Sobre mí</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Perfil</h3>
+            <p>Soy <strong>Tu Nombre</strong>, desarrollador(a) orientado(a) a frontend con nociones de backend. Me interesa la accesibilidad, el rendimiento y la DX.</p>
+            <ul>
+              <li><b>Stack:</b> HTML, CSS, JavaScript, GitHub Pages</li>
+              <li><b>Aprendiendo:</b> React, Vite, API REST</li>
+              <li><b>Ciudad:</b> Tu ciudad, país</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Servicios</h3>
+            <ul>
+              <li>Sitios estáticos rápidos</li>
+              <li>Portafolios y landing pages</li>
+              <li>Migración a GitHub Pages</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- Proyectos -->
+      <section id="proyectos" aria-labelledby="h-proyectos">
+        <h2 id="h-proyectos">Proyectos destacados</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Mi Proyecto 1</h3>
+            <p>Descripción breve del proyecto. Qué problema resuelve y qué tecnologías usaste.</p>
+            <p><a href="https://TUUSUARIO.github.io/mi-proyecto-1/" target="_blank" rel="noopener">Ver demo</a> · <a href="https://github.com/TUUSUARIO/mi-proyecto-1" target="_blank" rel="noopener">Código</a></p>
+          </article>
+          <article class="card">
+            <h3>Mi Proyecto 2</h3>
+            <p>Descripción breve del proyecto. Puedes añadir una imagen o GIF.</p>
+            <p><a href="https://TUUSUARIO.github.io/mi-proyecto-2/" target="_blank" rel="noopener">Ver demo</a> · <a href="https://github.com/TUUSUARIO/mi-proyecto-2" target="_blank" rel="noopener">Código</a></p>
+          </article>
+          <article class="card">
+            <h3>Mi Proyecto 3</h3>
+            <p>Descripción breve del proyecto.</p>
+            <p><a href="https://TUUSUARIO.github.io/mi-proyecto-3/" target="_blank" rel="noopener">Ver demo</a> · <a href="https://github.com/TUUSUARIO/mi-proyecto-3" target="_blank" rel="noopener">Código</a></p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Snippet de ejemplo (útil para mostrar habilidades) -->
+      <section aria-labelledby="h-codigo">
+        <h2 id="h-codigo">Un poco de código</h2>
+        <pre><code>// JavaScript: función simple
+function saludar(nombre) {
+  return `Hola, ${nombre} 👋`;
+}
+console.log(saludar("Mundo"));</code></pre>
+      </section>
+
+      <!-- Contacto -->
+      <section id="contacto" aria-labelledby="h-contacto">
+        <h2 id="h-contacto">Contacto</h2>
+        <div class="card">
+          <p>¿Conversemos? Escríbeme por correo o redes.</p>
+          <ul>
+            <li>Email: <a href="mailto:tunombre@ejemplo.com">tunombre@ejemplo.com</a></li>
+            <li>LinkedIn: <a href="https://www.linkedin.com/in/TULINKEDIN/" target="_blank" rel="noopener">Perfil</a></li>
+            <li>X/Twitter: <a href="https://twitter.com/TUTWITTER" target="_blank" rel="noopener">@TUTWITTER</a></li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>© <span id="year"></span> Tu Nombre. Hecho con GitHub Pages.</p>
+      </div>
+    </footer>
+
+    <!-- JS mínimo: año actual + toggle de tema con preferencia persistente -->
+    <script>
+      // Año dinámico
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Tema: respeta prefers-color-scheme, pero permite override con localStorage
+      (function () {
+        const root = document.documentElement;
+        const saved = localStorage.getItem("theme"); // "light" | "dark" | null
+        if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
+
+        const btn = document.getElementById("themeToggle");
+        btn.addEventListener("click", () => {
+          const current = root.getAttribute("data-theme");
+          const next = current === "dark" ? "light" : "dark";
+          root.setAttribute("data-theme", next);
+          localStorage.setItem("theme", next);
+        });
+      })();
+    </script>
   </body>
 </html>
